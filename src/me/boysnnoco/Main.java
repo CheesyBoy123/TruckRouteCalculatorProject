@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -100,69 +101,83 @@ public class Main extends JPanel {
 	}
 	
 	
-	private void displayRoutes(ArrayList<Route> routes) {
+	private void displayRoutes(ArrayList<Route> routes, String name) {
 		if(routes == null) {
 			System.out.println("Route is null");
 			return;
 		}
-		int totalTime = 0;
-		int totalCargo = 0;
-		for(int i = 0; i < routes.size(); i++) {
-			Route r = routes.get(i);
-			System.out.println("Route " + i + " total order size: " + r.getTotalOrderSize());
-			System.out.println("Total time taken on route: " + r.getTotalTime());
-			totalTime += r.getTotalTime();
-			totalCargo += r.getTotalOrderSize();
-			Store s = null;
-			while((s = r.getCurrentStore()) != null) {
-				r.goToNextStore();
-				System.out.print("Store " + s.getStoreId() + "-->");
+		
+		File file = new File("./Data/RouteLog.txt");
+		FileWriter fr = null;
+		try {
+				if(!file.exists())
+					file.createNewFile();
+				
+				fr = new FileWriter(file, true);
+		
+			fr.write("---" + name + "---" + "\n");
+			System.out.println("---" + name + "---");
+			int totalTime = 0;
+			int totalCargo = 0;
+			for(int i = 0; i < routes.size(); i++) {
+				Route r = routes.get(i);
+				fr.write("Route " + i + " total order size " + r.getTotalOrderSize() + "\n");
+				fr.write("Total time taken on route: " + r.getTotalTime() + "\n");
+				System.out.println("Route " + i + " total order size: " + r.getTotalOrderSize());
+				System.out.println("Total time taken on route: " + r.getTotalTime());
+				totalTime += r.getTotalTime();
+				totalCargo += r.getTotalOrderSize();
+				Store s = null;
+				StringBuilder sb = new StringBuilder();
+				while((s = r.getCurrentStore()) != null) {
+					r.goToNextStore();
+					sb.append("Store " + s.getStoreId() + "-->");
 			
+				}
+				System.out.print(sb.toString());
+				fr.write(sb.toString() + "\n");
+				System.out.println("");
+				System.out.println("");
 			}
+			fr.write("Total time taken: " + totalTime + " total cargo taken: " + totalCargo + "\n");
+			fr.write("\n" + "\n");
+			System.out.println("Total time taken: " + totalTime + " total cargo taken: " + totalCargo);
 			System.out.println("");
 			System.out.println("");
+		
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				fr.flush();
+				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		System.out.println("Total time taken: " + totalTime + " total cargo taken: " + totalCargo);
-		System.out.println("");
-		System.out.println("");
 	}
 	
 	public void start(){
 		for(int i = 0; i < allWarehouses.size(); i++) {
 			System.out.println("Warehouse " + i + " routing: ");
 		
-			System.out.println("---Basic DFS Route---");
 			ArrayList<Route> basicDFSRoute = Route.generateDFSRoute(allWarehouses.get(i));
-			displayRoutes(basicDFSRoute);
-			System.out.println("");
-			System.out.println("");
+			displayRoutes(basicDFSRoute, "Basic DFS Route");
+
 		
-			System.out.println("---Basic BFS Route---");
 			ArrayList<Route> basicBFSRoute = Route.generateBFSRoute(allWarehouses.get(i));
-			displayRoutes(basicBFSRoute);
-			System.out.println("");
-			System.out.println("");
+			displayRoutes(basicBFSRoute, "Basic BFS Route");
 			
-			System.out.println("---Smart DFS Route (Minimum Routes)---");
 			ArrayList<Route> smartDFSRoute = Route.generateSmartDFSRoute(allWarehouses.get(i));
-			displayRoutes(smartDFSRoute);
-			System.out.println("");
-			System.out.println("");
+			displayRoutes(smartDFSRoute, "Smart DFS Route (Minimum Routes)");
 			
-			System.out.println("---Smart DFS Route (Minimum Time)---");
 			ArrayList<Route> smartDFSRouteTime = Route.generateSmartDFSTime(allWarehouses.get(i));
-			displayRoutes(smartDFSRouteTime);
-			System.out.println("");
-			System.out.println("");
+			displayRoutes(smartDFSRouteTime, "Smart DFS Route (Minimum Time)");
 			
-			System.out.println("---Daikjstra Route---");
 			ArrayList<Route> daikjstraRoute = Route.generateDaijkstraRoute(allWarehouses.get(i));
-			System.out.print("Finished the daikjstra route");
-			displayRoutes(daikjstraRoute);
-			System.out.println("");
-			System.out.println("");
-			
-			
+			displayRoutes(daikjstraRoute, "Dijkstra Route");
 			
 		}
 		
