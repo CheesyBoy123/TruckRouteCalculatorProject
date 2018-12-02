@@ -131,32 +131,33 @@ public class Main extends JPanel {
 		for(int i = 0; i < allWarehouses.size(); i++) {
 			System.out.println("Warehouse " + i + " routing: ");
 		
-//			System.out.println("---Basic DFS Route---");
-//			ArrayList<Route> basicDFSRoute = Route.generateDFSRoute(allWarehouses.get(i));
-//			displayRoutes(basicDFSRoute);
-//			System.out.println("");
-//			System.out.println("");
-//		
-//			System.out.println("---Basic BFS Route---");
-//			ArrayList<Route> basicBFSRoute = Route.generateBFSRoute(allWarehouses.get(i));
-//			displayRoutes(basicBFSRoute);
-//			System.out.println("");
-//			System.out.println("");
-//			
-//			System.out.println("---Smart DFS Route (Minimum Routes)---");
-//			ArrayList<Route> smartDFSRoute = Route.generateSmartDFSRoute(allWarehouses.get(i));
-//			displayRoutes(smartDFSRoute);
-//			System.out.println("");
-//			System.out.println("");
-//			
-//			System.out.println("---Smart DFS Route (Minimum Time)---");
-//			ArrayList<Route> smartDFSRouteTime = Route.generateSmartDFSTime(allWarehouses.get(i));
-//			displayRoutes(smartDFSRouteTime);
-//			System.out.println("");
-//			System.out.println("");
+			System.out.println("---Basic DFS Route---");
+			ArrayList<Route> basicDFSRoute = Route.generateDFSRoute(allWarehouses.get(i));
+			displayRoutes(basicDFSRoute);
+			System.out.println("");
+			System.out.println("");
+		
+			System.out.println("---Basic BFS Route---");
+			ArrayList<Route> basicBFSRoute = Route.generateBFSRoute(allWarehouses.get(i));
+			displayRoutes(basicBFSRoute);
+			System.out.println("");
+			System.out.println("");
+			
+			System.out.println("---Smart DFS Route (Minimum Routes)---");
+			ArrayList<Route> smartDFSRoute = Route.generateSmartDFSRoute(allWarehouses.get(i));
+			displayRoutes(smartDFSRoute);
+			System.out.println("");
+			System.out.println("");
+			
+			System.out.println("---Smart DFS Route (Minimum Time)---");
+			ArrayList<Route> smartDFSRouteTime = Route.generateSmartDFSTime(allWarehouses.get(i));
+			displayRoutes(smartDFSRouteTime);
+			System.out.println("");
+			System.out.println("");
 			
 			System.out.println("---Daikjstra Route---");
 			ArrayList<Route> daikjstraRoute = Route.generateDaijkstraRoute(allWarehouses.get(i));
+			System.out.print("Finished the daikjstra route");
 			displayRoutes(daikjstraRoute);
 			System.out.println("");
 			System.out.println("");

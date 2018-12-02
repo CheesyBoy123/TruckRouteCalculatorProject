@@ -38,12 +38,14 @@ public class Route {
 		storesToVisit.add(c.getConnectedStore());
 		totalTime += c.getTimeToStore();
 		totalOrderSize += c.getConnectedStore().getOrderSize();
+		c.getConnectedStore().setVisited(true);
 	}
 	
 	public void addStoreToRoute(Connection c, int ordersize) {
 		storesToVisit.add(c.getConnectedStore());
 		totalTime += c.getTimeToStore();
 		totalOrderSize += ordersize;
+		c.getConnectedStore().removeInventory(ordersize);
 	}
 	
 	public int getTotalOrderSize() {
@@ -62,7 +64,6 @@ public class Route {
 			return r;
 		
 		r.addStoreToRoute(startingConnection);
-		startingConnection.getConnectedStore().setVisited(true);
 		
 		for(int i = 0; i < startingConnection.getConnectedStore().getDifferentStoreConnections().size(); i++) {
 			//The store we are looking at that is connected to the current one HASNT been visited yet.
@@ -98,7 +99,6 @@ public class Route {
 			
 			if(r.getTotalOrderSize() + c.getConnectedStore().getOrderSize() > ware.getMaximumSize()) continue;
 			
-			c.getConnectedStore().setVisited(true);
 			r.addStoreToRoute(c);
 			
 			for(int i = 0; i < c.getConnectedStore().getDifferentStoreConnections().size(); i++) {
@@ -171,12 +171,10 @@ public class Route {
 		
 		if(c.getConnectedStore().getOrderSize() + r.getTotalOrderSize() <= maxsize) {
 			r.addStoreToRoute(c, c.getConnectedStore().getOrderSize());
-			c.getConnectedStore().removeInventory(c.getConnectedStore().getOrderSize());
 
 		} else {
 			//The truck is FULL now. No need to proceed.
 			int maxload = maxsize - r.getTotalOrderSize();
-			c.getConnectedStore().removeInventory(maxload);
 			r.addStoreToRoute(c, maxload);
 		}
 		
@@ -239,14 +237,19 @@ public class Route {
 		allConnections.add(con);
 		
 		Connection currentCon = null;
+		int currentMax = -1;
 		
 		while(!allConnections.isEmpty()) {
+			if(r.getTotalOrderSize() >= w.getMaximumSize()) break;
 			Connection c = allConnections.poll();
 			if(c == null) {
 				if(currentCon != null) {
-					r.addStoreToRoute(currentCon);
-					currentCon.getConnectedStore().setVisited(true);
+					//This could lead to problems
+
+					r.addStoreToRoute(currentCon, currentMax);
+					
 					currentCon = null;
+					currentMax = -1;
 				}
 				continue;
 			}
@@ -255,10 +258,18 @@ public class Route {
 			
 			
 			if(c.getConnectedStore().hasBeenVisisted()) continue;
-			if(c.getConnectedStore().getOrderSize() + r.getTotalOrderSize() > w.getMaximumSize()) continue;
 			
-			if(currentCon == null || currentCon.getTimeToStore() > c.getTimeToStore())
+			
+			
+			if(currentCon == null || currentCon.getTimeToStore() > c.getTimeToStore()) { 
 				currentCon = c;
+				//I don't like this else statement.
+				if(c.getConnectedStore().getOrderSize() + r.getTotalOrderSize() > w.getMaximumSize()) {
+					currentMax = (w.getMaximumSize() - r.getTotalOrderSize());
+				} else {
+					currentMax = c.getConnectedStore().getOrderSize();
+				}
+			}
 			
 			for(int i = 0; i < c.getConnectedStore().getDifferentStoreConnections().size(); i++) {
 				if(!c.getConnectedStore().getDifferentStoreConnections().get(i).getConnectedStore().hasBeenVisisted())
@@ -266,7 +277,6 @@ public class Route {
 			}
 			
 			allConnections.add(null);
-			
 			
 		}
 		
@@ -280,10 +290,10 @@ public class Route {
 		for(int i = 0; i < warehouse.getConnectedStores().size(); i++) {
 			if(!warehouse.getConnectedStores().get(i).getConnectedStore().hasBeenVisisted())
 				routes.add(daijkstraRouteHelper(warehouse, warehouse.getConnectedStores().get(i)));
+			if(i + 1 == warehouse.getConnectedStores().size() && !validateRoutes(warehouse)) i = -1;
 		}
 		
 		if(!validateRoutes(warehouse)) {
-			System.out.println("Could not validate the route.");
 			return null;
 		}
 		
