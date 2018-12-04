@@ -151,7 +151,7 @@ public class Route {
 			}
 			
 			//Prioritize LESS routes rather than LESS time!
-			if(currentTime < time || (currentTime == time && currentRoutes < totalRoutes) && validateRoutes(startingWarehouse)) {
+			if((currentTime < time || (currentTime == time && currentRoutes < totalRoutes)) && validateRoutes(startingWarehouse)) {
 				routes = tempRoute;
 				totalRoutes = currentRoutes;
 				time = currentTime;
@@ -215,7 +215,7 @@ public class Route {
 			}
 			
 			//Prioritize LESS routes rather than LESS time!
-			if(currentRoutes < totalRoutes || (currentRoutes == totalRoutes && currentTime < time) && validateRoutes(startingwareHouse)) {
+			if((currentRoutes < totalRoutes || (currentRoutes == totalRoutes && currentTime < time)) && validateRoutes(startingwareHouse)) {
 				routes = tempRoute;
 				totalRoutes = currentRoutes;
 				time = currentTime;

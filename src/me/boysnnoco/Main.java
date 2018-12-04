@@ -88,7 +88,7 @@ public class Main extends JPanel {
 				
 			}
 			
-			g2d.setColor(Color.GREEN);
+			g2d.setColor(Color.black);
 			for(Warehouse w : allWarehouses) {
 				g2d.drawImage(ware, w.getX(), w.getY(), this);
 				for(int i = 0; i < w.getConnectedStores().size(); i++) {
@@ -103,13 +103,13 @@ public class Main extends JPanel {
 	}
 	
 	
-	private void displayRoutes(ArrayList<Route> routes, String name) {
+	private void displayRoutes(ArrayList<Route> routes, String name, int warehouseNumber) {
 		if(routes == null) {
 			System.out.println("Route is null");
 			return;
 		}
 		
-		File file = new File("./Data/RouteLog.txt");
+		File file = new File("./Data/WarehouseLog_" + warehouseNumber + ".txt");
 		FileWriter fr = null;
 		try {
 
@@ -170,25 +170,30 @@ public class Main extends JPanel {
 		}
 	}
 	
+	//TODO::: The BASIC DFS and BFS Routes REQUIRE all stores to have less cargo than the maximum a truck can handle, or it will NOT work correctly. This
+	//may or may not be a bad thing.
+	
 	public void start(){
 		for(int i = 0; i < allWarehouses.size(); i++) {
 			System.out.println("Warehouse " + i + " routing: ");
 		
 			ArrayList<Route> basicDFSRoute = Route.generateDFSRoute(allWarehouses.get(i));
-			displayRoutes(basicDFSRoute, "Basic DFS Route");
+			displayRoutes(basicDFSRoute, "Basic DFS Route", i);
 
 		
 			ArrayList<Route> basicBFSRoute = Route.generateBFSRoute(allWarehouses.get(i));
-			displayRoutes(basicBFSRoute, "Basic BFS Route");
+			displayRoutes(basicBFSRoute, "Basic BFS Route",i);
 			
 			ArrayList<Route> smartDFSRoute = Route.generateSmartDFSRoute(allWarehouses.get(i));
-			displayRoutes(smartDFSRoute, "Smart DFS Route (Minimum Routes)");
+			displayRoutes(smartDFSRoute, "Smart DFS Route (Minimum Routes)",i);
 			
 			ArrayList<Route> smartDFSRouteTime = Route.generateSmartDFSTime(allWarehouses.get(i));
-			displayRoutes(smartDFSRouteTime, "Smart DFS Route (Minimum Time)");
+			displayRoutes(smartDFSRouteTime, "Smart DFS Route (Minimum Time)",i);
 			
 			ArrayList<Route> daikjstraRoute = Route.generateDaijkstraRoute(allWarehouses.get(i));
-			displayRoutes(daikjstraRoute, "Dijkstra Route");
+			displayRoutes(daikjstraRoute, "Dijkstra Route",i);
+			
+			init = false;
 			
 		}
 		
