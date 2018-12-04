@@ -129,6 +129,7 @@ public class Main extends JPanel {
 			System.out.println("---" + name + "---");
 			int totalTime = 0;
 			int totalCargo = 0;
+			
 			for(int i = 0; i < routes.size(); i++) {
 				Route r = routes.get(i);
 				fr.write("Route " + i + " total order size " + r.getTotalOrderSize() + "\n");
@@ -149,10 +150,11 @@ public class Main extends JPanel {
 				fr.write("\n");
 				System.out.println("");
 				System.out.println("");
+				
 			}
-			fr.write("Total time taken: " + totalTime + " total cargo taken: " + totalCargo + "\n");
+			fr.write("Total time taken: " + totalTime + " minutes, total cargo taken: " + totalCargo + ", total routes taken: "  + routes.size() + "\n");
 			fr.write("\n" + "\n");
-			System.out.println("Total time taken: " + totalTime + " total cargo taken: " + totalCargo);
+			System.out.println("Total time taken: " + totalTime + " minutes, total cargo taken: " + totalCargo + ", total routes taken: " + routes.size());
 			System.out.println("");
 			System.out.println("");
 		
