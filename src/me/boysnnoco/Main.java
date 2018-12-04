@@ -29,6 +29,8 @@ public class Main extends JPanel {
 	private static ArrayList<Store> allStores;
 	private static ArrayList<Warehouse> allWarehouses;
 	
+	private boolean init = false;
+	
 	
 	public static Main main;
 	
@@ -110,8 +112,16 @@ public class Main extends JPanel {
 		File file = new File("./Data/RouteLog.txt");
 		FileWriter fr = null;
 		try {
-				if(!file.exists())
+
+				if(file.exists() && !init) {
+					init = true;
+					file.delete();
+				}
+				
+				if(!file.exists()) {
 					file.createNewFile();
+				}
+				
 				
 				fr = new FileWriter(file, true);
 		
@@ -136,6 +146,7 @@ public class Main extends JPanel {
 				}
 				System.out.print(sb.toString());
 				fr.write(sb.toString() + "\n");
+				fr.write("\n");
 				System.out.println("");
 				System.out.println("");
 			}
