@@ -1,0 +1,185 @@
+---Basic DFS Route---
+Route 0 total order size 28
+Total time taken on route: 109
+Store 0-->Store 1-->Store 2-->
+Route 1 total order size 12
+Total time taken on route: 51
+Store 3-->
+Route 2 total order size 20
+Total time taken on route: 55
+Store 4-->
+Route 3 total order size 22
+Total time taken on route: 76
+Store 5-->Store 6-->
+Route 4 total order size 22
+Total time taken on route: 53
+Store 7-->
+Route 5 total order size 21
+Total time taken on route: 79
+Store 8-->Store 11-->
+Route 6 total order size 0
+Total time taken on route: 0
+
+Route 7 total order size 30
+Total time taken on route: 28
+Store 10-->
+Route 8 total order size 20
+Total time taken on route: 49
+Store 12-->Store 14-->
+Route 9 total order size 22
+Total time taken on route: 31
+Store 13-->
+Route 10 total order size 22
+Total time taken on route: 33
+Store 15-->
+Route 11 total order size 25
+Total time taken on route: 29
+Store 16-->
+Total time taken: 593 total cargo taken: 244
+
+
+---Basic BFS Route---
+Route 0 total order size 28
+Total time taken on route: 121
+Store 0-->Store 1-->Store 2-->
+Route 1 total order size 12
+Total time taken on route: 51
+Store 3-->
+Route 2 total order size 20
+Total time taken on route: 55
+Store 4-->
+Route 3 total order size 22
+Total time taken on route: 76
+Store 5-->Store 6-->
+Route 4 total order size 22
+Total time taken on route: 53
+Store 7-->
+Route 5 total order size 21
+Total time taken on route: 79
+Store 8-->Store 11-->
+Route 6 total order size 30
+Total time taken on route: 28
+Store 10-->
+Route 7 total order size 20
+Total time taken on route: 49
+Store 12-->Store 14-->
+Route 8 total order size 22
+Total time taken on route: 31
+Store 13-->
+Route 9 total order size 22
+Total time taken on route: 33
+Store 15-->
+Route 10 total order size 25
+Total time taken on route: 29
+Store 16-->
+Total time taken: 605 total cargo taken: 244
+
+
+---Smart DFS Route (Minimum Routes)---
+Route 0 total order size 30
+Total time taken on route: 94
+Store 3-->Store 1-->Store 0-->
+Route 1 total order size 30
+Total time taken on route: 70
+Store 4-->Store 2-->
+Route 2 total order size 30
+Total time taken on route: 111
+Store 5-->Store 6-->Store 7-->
+Route 3 total order size 30
+Total time taken on route: 89
+Store 7-->Store 8-->Store 9-->
+Route 4 total order size 30
+Total time taken on route: 67
+Store 9-->Store 10-->
+Route 5 total order size 30
+Total time taken on route: 42
+Store 10-->Store 11-->
+Route 6 total order size 30
+Total time taken on route: 75
+Store 11-->Store 12-->Store 13-->
+Route 7 total order size 30
+Total time taken on route: 92
+Store 13-->Store 14-->Store 15-->
+Route 8 total order size 30
+Total time taken on route: 88
+Store 15-->Store 16-->
+Route 9 total order size 9
+Total time taken on route: 29
+Store 16-->
+Total time taken: 757 total cargo taken: 279
+
+
+---Smart DFS Route (Minimum Time)---
+Route 0 total order size 30
+Total time taken on route: 94
+Store 3-->Store 1-->Store 0-->
+Route 1 total order size 30
+Total time taken on route: 70
+Store 4-->Store 2-->
+Route 2 total order size 30
+Total time taken on route: 111
+Store 5-->Store 6-->Store 7-->
+Route 3 total order size 30
+Total time taken on route: 89
+Store 7-->Store 8-->Store 9-->
+Route 4 total order size 30
+Total time taken on route: 67
+Store 9-->Store 10-->
+Route 5 total order size 30
+Total time taken on route: 42
+Store 10-->Store 11-->
+Route 6 total order size 30
+Total time taken on route: 75
+Store 11-->Store 12-->Store 13-->
+Route 7 total order size 30
+Total time taken on route: 92
+Store 13-->Store 14-->Store 15-->
+Route 8 total order size 30
+Total time taken on route: 88
+Store 15-->Store 16-->
+Route 9 total order size 9
+Total time taken on route: 29
+Store 16-->
+Total time taken: 757 total cargo taken: 279
+
+
+---Dijkstra Route---
+Route 0 total order size 30
+Total time taken on route: 61
+Store 1-->Store 2-->Store 3-->
+Route 1 total order size 2
+Total time taken on route: 51
+Store 3-->
+Route 2 total order size 20
+Total time taken on route: 55
+Store 4-->
+Route 3 total order size 30
+Total time taken on route: 92
+Store 6-->Store 5-->Store 9-->
+Route 4 total order size 30
+Total time taken on route: 72
+Store 8-->Store 9-->
+Route 5 total order size 30
+Total time taken on route: 106
+Store 12-->Store 9-->Store 13-->
+Route 6 total order size 30
+Total time taken on route: 114
+Store 11-->Store 13-->Store 14-->
+Route 7 total order size 30
+Total time taken on route: 93
+Store 15-->Store 7-->
+Route 8 total order size 30
+Total time taken on route: 89
+Store 16-->Store 7-->
+Route 9 total order size 30
+Total time taken on route: 115
+Store 7-->Store 10-->
+Route 10 total order size 9
+Total time taken on route: 28
+Store 10-->
+Route 11 total order size 8
+Total time taken on route: 63
+Store 0-->
+Total time taken: 939 total cargo taken: 279
+
+
