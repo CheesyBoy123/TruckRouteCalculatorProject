@@ -79,11 +79,18 @@ public class Main extends JPanel {
 			g2d = (Graphics2D)g;
 			Image store  = getToolkit().getImage("./Data/Images/store.png");
 			Image ware = getToolkit().getImage("./Data/Images/warehouse.png");
+			
+			int storeXOff = store.getWidth(null) / 2;
+			int storeYOff = store.getHeight(null) / 2;
+			
+			int warehouseXOff = ware.getWidth(null) / 2;
+			int warehouseYOff = ware.getHeight(null) / 2;
+			
 			g2d.setColor(Color.RED);
 			for(Store s : allStores) {
 				g2d.drawImage(store, s.getX(), s.getY(), this);				
 				for(int i = 0; i < s.getDifferentStoreConnections().size(); i++) {
-					g2d.drawLine(s.getX(), s.getY(), s.getDifferentStoreConnections().get(i).getConnectedStore().getX(), s.getDifferentStoreConnections().get(i).getConnectedStore().getY());
+					g2d.drawLine(s.getX() + storeXOff, s.getY() + storeYOff, s.getDifferentStoreConnections().get(i).getConnectedStore().getX() + storeXOff, s.getDifferentStoreConnections().get(i).getConnectedStore().getY() + storeYOff);
 				}
 				
 			}
@@ -92,7 +99,7 @@ public class Main extends JPanel {
 			for(Warehouse w : allWarehouses) {
 				g2d.drawImage(ware, w.getX(), w.getY(), this);
 				for(int i = 0; i < w.getConnectedStores().size(); i++) {
-					g2d.drawLine(w.getX(), w.getY(), w.getConnectedStores().get(i).getConnectedStore().getX(), w.getConnectedStores().get(i).getConnectedStore().getY());
+					g2d.drawLine(w.getX() + warehouseXOff, w.getY() + warehouseYOff, w.getConnectedStores().get(i).getConnectedStore().getX() + storeXOff, w.getConnectedStores().get(i).getConnectedStore().getY() + storeYOff);
 				}
 			}
 
