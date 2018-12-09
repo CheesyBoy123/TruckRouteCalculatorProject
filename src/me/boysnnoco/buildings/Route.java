@@ -56,6 +56,10 @@ public class Route {
 		return totalTime;
 	}
 	
+	public void addTimeFromLastStore() {
+		if(storesToVisit.isEmpty()) return;
+		totalTime += startingWarehouse.getTimeToStore(storesToVisit.get(storesToVisit.size() - 1));
+	}
 	
 	private static Route basicDFSRouteHelper(Route r, Connection startingConnection, int maxOrderSize) {
 		//Basically we don't want to go over our size limit (determined by the warehouse)
@@ -71,6 +75,8 @@ public class Route {
 				r = basicDFSRouteHelper(r, startingConnection.getConnectedStore().getDifferentStoreConnections().get(i), maxOrderSize);
 		}
 		
+		
+		
 		return r;
 	}
 	//Generates a bunch of routes that a truck can travel. This uses the DFS routes.
@@ -80,8 +86,11 @@ public class Route {
 		ArrayList<Connection> warehouseConnects = startingWarehouse.getConnectedStores();
 		ArrayList<Route> allWarehouseRoutes = new ArrayList<Route>();
 		for(int i = 0; i < warehouseConnects.size(); i++) {
-			if(!warehouseConnects.get(i).getConnectedStore().hasBeenVisisted())
-				allWarehouseRoutes.add(basicDFSRouteHelper(new Route(startingWarehouse), warehouseConnects.get(i), startingWarehouse.getMaximumSize()));
+			if(!warehouseConnects.get(i).getConnectedStore().hasBeenVisisted()) {
+				Route r = new Route(startingWarehouse);
+				allWarehouseRoutes.add(basicDFSRouteHelper(r, warehouseConnects.get(i), startingWarehouse.getMaximumSize()));
+				r.addTimeFromLastStore();
+			}
 		}
 		return allWarehouseRoutes;
 	}
@@ -107,7 +116,7 @@ public class Route {
 			}
 			
 		}
-		
+		r.addTimeFromLastStore();
 		return r.getTotalOrderSize() > 0 ? r : null;
 	}
 	
@@ -119,6 +128,7 @@ public class Route {
 			if(r != null)
 				routes.add(r);
 		}
+		
 		return routes;
 	}
 	
@@ -143,6 +153,7 @@ public class Route {
 			for(int i = offset; (i - offset) < startingWarehouse.getConnectedStores().size(); i++) {
 				if(!startingWarehouse.getConnectedStores().get(i % startingWarehouse.getConnectedStores().size()).getConnectedStore().hasBeenVisisted()) {
 					Route r = generateSmartDFSRouteHelper(startingWarehouse.getConnectedStores().get(i % startingWarehouse.getConnectedStores().size()), new Route(startingWarehouse), startingWarehouse.getMaximumSize());
+					r.addTimeFromLastStore();
 					currentTime += r.getTotalTime();
 					currentRoutes++;
 					tempRoute.add(r);
@@ -165,6 +176,9 @@ public class Route {
 		return routes;
 	}
 	
+	
+	//Wow, we use this for both generateSmartDFSTime and generateSmartDFSRoute... which may
+	//be why they show the same thing..... this may be a bad idea.
 	public static Route generateSmartDFSRouteHelper(Connection c, Route r, int maxsize) {
 		//Don't do anything, our route is already at maximum size.
 		if(maxsize == r.getTotalOrderSize()) return r;
@@ -182,6 +196,7 @@ public class Route {
 			if(!c.getConnectedStore().getDifferentStoreConnections().get(i).getConnectedStore().hasBeenVisisted())
 				r = generateSmartDFSRouteHelper(c.getConnectedStore().getDifferentStoreConnections().get(i), r, maxsize);
 		}
+		
 		
 		return r;
 	}
@@ -207,6 +222,7 @@ public class Route {
 			for(int i = offset; (i - offset) < startingwareHouse.getConnectedStores().size(); i++) {
 				if(!startingwareHouse.getConnectedStores().get(i % startingwareHouse.getConnectedStores().size()).getConnectedStore().hasBeenVisisted()) {
 					Route r = generateSmartDFSRouteHelper(startingwareHouse.getConnectedStores().get(i % startingwareHouse.getConnectedStores().size()), new Route(startingwareHouse), startingwareHouse.getMaximumSize());
+					r.addTimeFromLastStore();
 					currentTime += r.getTotalTime();
 					currentRoutes++;
 					tempRoute.add(r);
@@ -279,7 +295,7 @@ public class Route {
 			allConnections.add(null);
 			
 		}
-		
+		r.addTimeFromLastStore();
 		return r;
 	}
 	

@@ -30,6 +30,7 @@ public class Main extends JPanel {
 	private static ArrayList<Warehouse> allWarehouses;
 	
 	private boolean init = false;
+	private boolean analyticInit = false;
 	
 	
 	public static Main main;
@@ -179,6 +180,74 @@ public class Main extends JPanel {
 		}
 	}
 	
+	private void displayAnalytics(ArrayList<Route> route1, ArrayList<Route> route2, int number, String route1Name, String route2Name) {
+		if(route1 == null || route2 == null) {
+			System.out.println("Route(s) are null");
+			return;
+		}
+		
+		File file = new File("./Data/AnalyticsLog_" + number + ".txt");
+		FileWriter fr = null;
+		try {
+
+				if(file.exists() && !analyticInit) {
+					analyticInit = true;
+					file.delete();
+				}
+				
+				if(!file.exists()) {
+					file.createNewFile();
+				}
+				
+				
+				fr = new FileWriter(file, true);
+		
+			fr.write("---" + route1Name + " VS. " + route2Name + "---" + "\n");
+			
+			float routeTime1 = 0;
+			float routeTime2 = 0;
+			
+			for(int i = 0; i < route1.size(); i++) {
+				routeTime1 += route1.get(i).getTotalTime();
+			}
+			
+			for(int i = 0; i < route2.size(); i++) {
+				routeTime2 += route2.get(i).getTotalTime();
+			}
+			
+			float timeRatio = (routeTime1 / routeTime2);
+			float routeSizeRatio = ((float)route1.size() / (float)route2.size());
+			
+			if(timeRatio > 1) {
+				timeRatio = timeRatio - 1;
+				fr.write(route1Name + " has a " + (timeRatio * 100.0) + "% increase in travel time, compared to " + route2Name);
+			} else {
+				timeRatio = 1 - timeRatio;
+				fr.write(route1Name + " has a " + (timeRatio * 100.0) + "% decrease in travel time, compared to " + route2Name);
+			}
+			fr.write("\n");
+			if(routeSizeRatio > 1) {
+				routeSizeRatio = routeSizeRatio - 1;
+				fr.write(route1Name + " has a " + (routeSizeRatio * 100.0) + "% increase in total routes, compared to " + route2Name);
+			} else {
+				routeSizeRatio = 1 - routeSizeRatio;
+				fr.write(route1Name + " has a " + (routeSizeRatio * 100.0) + "% decrease in total routes, compared to " + route2Name);
+			}
+			fr.write("\n");
+			fr.write("\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				fr.flush();
+				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	//TODO::: The BASIC DFS and BFS Routes REQUIRE all stores to have less cargo than the maximum a truck can handle, or it will NOT work correctly. This
 	//may or may not be a bad thing.
 	
@@ -202,7 +271,13 @@ public class Main extends JPanel {
 			ArrayList<Route> daikjstraRoute = Route.generateDaijkstraRoute(allWarehouses.get(i));
 			displayRoutes(daikjstraRoute, "Dijkstra Route",i);
 			
+			displayAnalytics(basicDFSRoute, basicBFSRoute,  i, "Basic DFS", "Basic BFS");
+			displayAnalytics(basicDFSRoute, smartDFSRouteTime, i, "Basic DFS", "Smart DFS (Min Routes)");
+			displayAnalytics(basicDFSRoute, smartDFSRouteTime, i, "Basic DFS", "Smart DFS (Min Time)");
+			displayAnalytics(basicBFSRoute, daikjstraRoute, i, "Basic BFS", "Dijkstra");
+			
 			init = false;
+			analyticInit = false;
 			
 		}
 		
