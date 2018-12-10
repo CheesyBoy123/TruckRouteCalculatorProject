@@ -1,6 +1,6 @@
 package me.boysnnoco.buildings;
 
-//Just a basic edge wrapper class.
+//Just a basic edge wrapper class with the corresponding store and time to that store
 public class Connection {
 
 	private Store connectedStore;
