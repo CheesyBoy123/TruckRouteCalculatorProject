@@ -280,26 +280,26 @@ public class Main extends JPanel {
 			//We write out that information
 			if(timeRatio > 1) {
 				timeRatio = timeRatio - 1;
-				fr.write(route1Name + " has a " + (timeRatio * 100.0) + "% increase in travel time, compared to " + route2Name);
+				fr.write(route1Name + " has a " + (timeRatio * 100.0) + "% increase in travel time, (" + routeTime1 + " compared to " + routeTime2 + ")");
 			} else {
 				timeRatio = 1 - timeRatio;
-				fr.write(route1Name + " has a " + (timeRatio * 100.0) + "% decrease in travel time, compared to " + route2Name);
+				fr.write(route1Name + " has a " + (timeRatio * 100.0) + "% decrease in travel time, (" + routeTime1 + " compared to " + routeTime2 + ")");
 			}
 			fr.write("\n");
 			if(routeSizeRatio > 1) {
 				routeSizeRatio = routeSizeRatio - 1;
-				fr.write(route1Name + " has a " + (routeSizeRatio * 100.0) + "% increase in total routes, compared to " + route2Name);
+				fr.write(route1Name + " has a " + (routeSizeRatio * 100.0) + "% increase in total routes, (" + route1.size() + " compared to " + route2.size() + ")");
 			} else {
 				routeSizeRatio = 1 - routeSizeRatio;
-				fr.write(route1Name + " has a " + (routeSizeRatio * 100.0) + "% decrease in total routes, compared to " + route2Name);
+				fr.write(route1Name + " has a " + (routeSizeRatio * 100.0) + "% decrease in total routes, (" + route1.size() + " compared to " + route2.size() + ")");
 			}
 			fr.write("\n");
 			if(comparisonRatio > 1) {
 				comparisonRatio = comparisonRatio - 1;
-				fr.write(route1Name + " has a " + (comparisonRatio * 100.0) + "% increase in total comparison, compared to " + route2Name);
+				fr.write(route1Name + " has a " + (comparisonRatio * 100.0) + "% increase in total comparison, (" + route1Comparisons + " compared to " + route2Comparisons + ")");
 			} else {
 				comparisonRatio = 1 - comparisonRatio;
-				fr.write(route1Name + " has a " + (comparisonRatio * 100.0) + "% decrease in total comparison, compared to " + route2Name);
+				fr.write(route1Name + " has a " + (comparisonRatio * 100.0) + "% decrease in total comparison, (" + route1Comparisons + " compared to " + route2Comparisons + ")");
 			}
 			fr.write("\n");
 			fr.write("\n");
