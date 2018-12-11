@@ -36,7 +36,6 @@ public class RouteGenerators {
 			if(!startingConnection.getConnectedStore().getDifferentStoreConnections().get(i).getConnectedStore().hasBeenVisisted())
 				r = basicDFSRouteHelper(r, startingConnection.getConnectedStore().getDifferentStoreConnections().get(i), maxOrderSize);
 		}
-		
 		//Return the route
 		return r;
 	}
@@ -56,8 +55,9 @@ public class RouteGenerators {
 			if(!startingWarehouse.getConnectedStores().get(i).getConnectedStore().hasBeenVisisted()) {
 				//Add the route that was generated from the basicDFSRouteHelper function.
 				Route r = new Route(startingWarehouse);
-				allWarehouseRoutes.add(basicDFSRouteHelper(r, startingWarehouse.getConnectedStores().get(i), startingWarehouse.getMaximumSize()));
+				r = basicDFSRouteHelper(r, startingWarehouse.getConnectedStores().get(i), startingWarehouse.getMaximumSize());
 				r.addTimeFromLastStore();
+				allWarehouseRoutes.add(r);
 			}
 		}
 		
@@ -89,12 +89,13 @@ public class RouteGenerators {
 			//Make sure we haven't gone here before, and it's order size isn't too big.
 			r.incrementOperations();
 			if(c.getConnectedStore().hasBeenVisisted()) continue;
+			
 			r.incrementOperations();
 			if(r.getTotalOrderSize() + c.getConnectedStore().getOrderSize() > ware.getMaximumSize()) continue;
 			
 			//Add this store to our route
 			r.addStoreToRoute(c);
-			
+			allConnections.clear();
 			//Add all the connections from this store (to other stores) that haven't already been visisted.
 			for(int i = 0; i < c.getConnectedStore().getDifferentStoreConnections().size(); i++) {
 				r.incrementOperations();
@@ -121,6 +122,7 @@ public class RouteGenerators {
 		//Go through every store and use BFS to create a route and add it to our array of routes.
 		for(int i = 0; i < startingWarehouse.getConnectedStores().size(); i++) {
 			Route r = basicBFSRouter(startingWarehouse, startingWarehouse.getConnectedStores().get(i));
+			
 			if(r != null)
 				routes.add(r);
 		}
@@ -175,6 +177,7 @@ public class RouteGenerators {
 				}
 			
 			}
+			
 			
 			//Prioritize LESS time rather than LESS routes! Also validate the route
 			if((currentTime < time || (currentTime == time && currentRoutes < totalRoutes)) && validateRoutes(startingWarehouse)) {
@@ -273,7 +276,6 @@ public class RouteGenerators {
 					}
 					
 					//Prioritize LESS routes rather than LESS time! Also validate the route
-					
 					if((currentRoutes < totalRoutes || (currentRoutes == totalRoutes && currentTime < time)) && validateRoutes(startingWarehouse)) {
 						routes = tempRoute;
 						totalRoutes = currentRoutes;
@@ -382,9 +384,7 @@ public class RouteGenerators {
 				routes.add(daijkstraRouteHelper(warehouse, warehouse.getConnectedStores().get(i)));
 			//If we can't make a valid route restart our loop.
 			if(i + 1 == warehouse.getConnectedStores().size() && !validateRoutes(warehouse)) {
-				i = -1;
-				System.out.println("Am I stuck here??");
-				
+				i = -1;				
 			}
 		}
 		
