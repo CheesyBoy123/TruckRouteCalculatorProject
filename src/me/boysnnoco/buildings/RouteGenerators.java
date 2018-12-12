@@ -222,8 +222,10 @@ public class RouteGenerators {
 		//Do DFS on the other routes
 		for(int i = 0; i < startingConnection.getConnectedStore().getDifferentStoreConnections().size(); i++) {
 			r.incrementOperations();
-			if(!startingConnection.getConnectedStore().getDifferentStoreConnections().get(i).getConnectedStore().hasBeenVisisted())
+			if(!startingConnection.getConnectedStore().getDifferentStoreConnections().get(i).getConnectedStore().hasBeenVisisted()) {
 				r = generateSmartDFSRouteHelper(startingConnection.getConnectedStore().getDifferentStoreConnections().get(i), r, maxsize);
+				break;
+			}
 		}
 		
 		//Route our new route.
